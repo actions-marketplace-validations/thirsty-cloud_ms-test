@@ -1,4 +1,5 @@
 name: mstest99
+description: 'Greets a user and generates a random number'
 
 on:
   push:
