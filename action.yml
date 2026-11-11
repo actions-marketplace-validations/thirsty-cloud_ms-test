@@ -1,38 +1,19 @@
-name: mstest99
-description: 'Greets a user and generates a random number'
+name: "mstest99"
+description: "Say hello to a user or the world"
+author: "thirsty-cloud"
 
-on:
-  push:
-    branches: [ main ]
-    paths-ignore: [.github/**]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: '15 6 * * 0'
-  workflow_dispatch:
+branding:
+  icon: "play-circle"
+  color: "red"
 
-jobs:
-  Build:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "🎉 The job was triggered by event: ${{ github.event_name }}"
-          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ."
+inputs:
+  who-to-greet:
+    description: "Who to greet"
+    required: false
+    default: "World"
 
-      - uses: actions/checkout@v3.3.0
-
-      - name: List files in the repository
-        run: |
-          echo "The repository ${{ github.repository }} contains the following files:"
-          tree
-      - name: Test Log Levels
-        run: |
-          echo "::warning file=app.js,line=10::This is a code warning."
-          echo "::error file=app.js,line=15::Critical syntax error found."
-
-      - name: Generate Value
-        id: generator
-        run: echo "build_id=12345" >> "$GITHUB_OUTPUT"
-
-      - name: Use Value
-        run: echo "build ID is ${{ steps.generator.outputs.build_id }}"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.who-to-greet }}
